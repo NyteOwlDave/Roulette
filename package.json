@@ -1,7 +1,7 @@
 {
-  "name": "Monte Carlo",
-  "productName": "Monte Carlo",
-  "description": "My Electron application description",
+  "name": "Roulette",
+  "productName": "Roulette",
+  "description": "NCS Roulette Application",
   "keywords": [],
   "main": "./main.js",
   "version": "1.0.0",
