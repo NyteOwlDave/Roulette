@@ -2,6 +2,9 @@
 	"folders": [
 		{
 			"path": "."
+		},
+		{
+			"path": "../../../MARVIN/dave/Mount/std/api/try-it"
 		}
 	],
 	"settings": {}
