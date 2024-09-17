@@ -1,0 +1,466 @@
+
+kbd, code, pre, script, textarea {
+    font-family: monospace;
+}
+
+input[type="number"] {
+    width: 8em;
+}
+
+/* 
+================================
+*/
+
+:root {
+  --fgnd: #EDC;
+  --bgnd: #123;
+  --table-bgnd: #FFEEDD;
+  --table-fgnd: #001122;
+  --odd-bgnd: #223344;
+  --even-bgnd: #334455;
+  --shadow: 4px 4px 7px rgb(135, 135, 126);
+  --shadow-anchor: 1px 1px 9px rgb(135, 135, 126);
+}
+
+* {
+  font-size: xx-large;
+  z-index: 0;
+}
+
+[spacer] {
+  margin-top: 200px;
+}
+
+[clickable] {
+  cursor: pointer;
+}
+
+[inverse] {
+  background-color: var(--fgnd);
+  color: var(--bgnd);
+}
+
+[center] {
+  text-align: center;
+  vertical-align: middle;
+  align-items: center;
+  align-self: center;
+  align-content: center;
+}
+
+[indent] {
+  padding-left: 10px;
+}
+
+body {
+  font: 14pt sans-serif;
+  color: var(--fgnd);
+  background-color: var(--bgnd);
+  margin: 0;
+  padding: 0;
+}
+
+body > header:first-child {
+  margin-bottom: 30px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  text-align: left;
+  margin-left: 16px;
+  margin-top: 2.5em;
+  text-shadow: var(--shadow);
+  font-weight: 900;
+}
+
+h1 {  
+ font-size: xx-large;
+}
+
+h2 {  
+ font-size: larger;
+}
+
+h3 {  
+ font-size: x-large;
+}
+
+h4 {  
+ font-size: large;
+}
+
+h5 {  
+ font-size: default;
+}
+
+h6 {  
+ font-size: small;
+}
+
+main, div, p, ul, ol, table, form, video, iframe,
+nav, article, section, blockquote, address {
+    margin-left: 20px;
+}
+
+blockquote {
+  padding: 5px;
+  border-left: 3px solid green;
+  color: rgba(100, 255, 100, 0.8);
+  background-color: rgba(100, 255, 100, 0.1);
+}
+
+textarea, input, pre, blockquote {
+  font: 13pt monospace;
+  padding: 0.5em;
+}
+
+iframe {
+    border: 1px solid rgba(255, 0, 0, 0.25);
+    border-radius: 15px;
+    box-shadow: var(--shadow);
+}
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    font-size: 32pt;
+    text-align: center;
+}
+
+header, footer {
+    margin: 0;
+    font-family: verdana, tahoma, sans-serif;
+    z-index: 12345;
+    color: var(--bgnd);
+    background-color: var(--fgnd);
+}
+
+main {
+    margin-top : 60px;
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+}
+
+footer, header {
+    margin: 0;
+    width: calc(100% - 8px);;
+    padding: 4px;
+    user-select: none;
+    cursor: none;
+}
+
+table {
+    margin-top: 1em;
+    margin-bottom: 1em;
+    box-shadow: var(--shadow);
+    border: transparent;
+    border-collapse: collapse;
+}
+
+td:nth-child( 1 ) {
+  font-weight: 900;
+  text-shadow: 2px 2px solid white;
+  color: rgba(255, 255, 22, 0.7);
+}
+
+table thead {
+    font-size: x-large;
+}
+
+table thead tr {
+    color: var(--table-fgnd);
+    background-color: var(--table-bgnd);
+}
+
+table td {
+    padding: 4px 12px;
+}
+
+table tbody tr:nth-child(odd) {
+    background-color: var(--odd-bgnd);
+}
+
+table tbody tr:nth-child(even) {
+    background-color: var(--even-bgnd);
+}
+
+table th, table td, dfn {
+    font: inherit;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+fieldset {
+    border: 1px solid var(--fgnd);
+    border-radius: 1em;
+    width: calc(100% - 2em);
+    margin-bottom: 20px;
+}
+
+fieldset legend {
+    border: 1px solid var(--fgnd);
+    color: var(--bgnd);
+    background-color: var(--fgnd);
+    padding-left: 7px;
+    padding-right: 7px;
+    border-radius: 1em;
+    user-select: none;
+    cursor: not-allowed;
+}
+
+hr {
+  margin-top : 5em;
+  opacity    : 85%; 
+}
+
+video, audio {
+    border: 5px solid rgba(40, 255, 40, 0.75);
+}
+
+code {
+    color: skyblue;
+    font-weight: 700;
+}
+
+em, strong {
+    color: lemonchiffon;
+    font-weight: 700;
+}
+
+dt {
+    color: forestgreen;
+    font-weight: 800;
+    margin-left: 1em;
+}
+
+dd {
+    color: lightgreen;
+    font-weight: 500;
+    margin-left: 2em;
+    display: block;
+}
+
+dd, dt {  
+    display: inline-block;
+    margin-right: 0;
+}
+
+pre {
+    background-color: #225;
+    padding: 1em;
+}
+
+pre.signature {
+    text-align: right;
+    align-content: right;
+    color: skyblue;
+    background-color: #202010;
+    font-weight: 900;
+    border-radius: 5px;
+}
+
+b, figcaption {
+    color: #FFFF9E
+}
+
+figcaption {
+    font-family: 'Courier New', Courier, monospace;
+}
+
+kbd {
+    border: 1px solid #222;
+    border-radius: 5px;
+    background-color: gray;
+    color: black;
+    font-family: monospace;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+script {
+    font-size   : large;
+    font-weight : 800;
+}
+
+.pulsate-container {
+    display: inline-block;
+    position: relative;
+}
+
+a {
+    text-shadow: var(--shadow-anchor);
+    color: inherit;
+    background-color: transparent;
+    font-weight: 400;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+a:hover {
+    display: inline-block;
+    font-size: 1rem;
+    animation: pulsate 2s infinite;
+    font-weight: 700;
+}
+
+@keyframes pulsate {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.5);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+nav {
+    margin-left: 20px;
+    user-select: none;
+    -webkit-user-select: none;
+    cursor: pointer;
+}
+
+.shiver-container {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.shiver-text {
+    display: inline-block;
+    animation: shiver 0.5s infinite;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.shiver-once:hover {
+    display: inline-block;
+    animation: shiver 0.5s 1;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+/* https://developer.mozilla.org/en-US/docs/Web/CSS/animation */
+@keyframes shiver {
+    0% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-5px);
+    }
+    50% {
+        transform: translateX(5px);
+    }
+    75% {
+        transform: translateX(-5px);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+/*
+    2024-AUG-04
+    From Popeye / Try-It
+*/
+
+.tryit {
+  width: calc( 100% - 1.2em );
+  font-family: monospace;
+}
+
+button, select {
+  border-radius: 9px;
+}
+
+button {
+  width: 13em;
+  cursor: pointer;
+  padding-top: 5px;
+  padding-bottom: 9px;
+  color: rgb( 255, 255, 80 );
+  background-color: rgba( 255, 255, 80, 0.17 );
+  box-shadow: 5px 5px 7px rgba(0, 0, 0, 0.75);
+}
+
+label {
+  font-weight: 800;
+  color: rgba( 255, 255, 80, 0.75 );
+  padding-top: 11px;
+  padding-bottom: 3px;
+}
+
+label:before {
+  content: '🎩 ';
+}
+
+label, button, select, option, button > strong {
+  font-size: large;
+  text-shadow: 5px 5px 3px rgba(0, 0, 0, 0.75);
+}
+
+label, button, legend {
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+}
+
+select {
+  padding: 0.5em;
+}
+
+/* Awesome Horizontal Rule */
+.crunched {
+  margin-top: 1em;
+  margin-bottom: 1em;
+  height : 3px;
+  border : 0;
+  background-image : url( '/media/Splitters/gradient1.jpg' );
+  background-repeat: no-repeat;
+  background-attachment: fixed; 
+  background-size: 100% 100%;
+  opacity : 0.3;
+}
+
+/* Bright Yellow on Dim Tan (Button Text) */
+.cranked {
+  color : rgba( 200, 200, 150, 0.15 );
+  background-color : rgba( 200, 200, 150, 0.35 );
+}
+
+
+/*
+    2024-AUG-06
+    From Popeye / Try-It
+*/
+
+.savvy {
+    margin: 1.5em; 
+    width: calc(100% - 4.5em);
+}
+
+/*
+    2024-AUG-11
+    for NAV footer
+*/
+
+.navy {
+    text-decoration: none;
+    background-color: transparent;
+}
+
+/*
+    2024-AUG-15
+    for NAV footer
+*/
+
+.navy-splitter {
+    color : rgba( 0, 0, 0, 0.375 );
+}
+

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <link href="./styles.css" rel="stylesheet">
+    <title>Monte Carlo</title>
+  </head>
+  <body>
+  <article>
+    <p>
+      This application uses the console for output. <br>
+      Press <kbd>[CTRL]</kbd>+<kbd>[SHIFT]</kbd>+<kbd>[I]</kbd> to open it.
+    </p>
+    <p>
+      This is a demo that demonstrates using the Monte Carlo statistical method to
+      estimate the area of intersection for two circles.
+    </p>
+  </article>
+  <hr>
+  <section name="Controls">
+    <button id="idRun">Go</button><br>
+    <input id="idSamples" type="number" value="10000"><span>&nbsp;Samples</span><br>
+    <input id="idDigits" type="number" value="2" min="0" max="8"><span>&nbsp;Precision</span><br>
+  </section>
+  <hr>
+  <section name="Navigation">
+    <nav>
+      <button onclick="openWindow(this)" href="./mathjax.html">MathJax</button>
+    </nav>
+  </section>
+  <section hidden name="Crusty Rusty and NODMAPI APIs">
+    <script system src="http://dave-tower/projects/math/complex/api/legacy/require.js"></script>
+    <script system src="http://dave-tower/projects/math/complex/waypoints/nodmapi/all.js"></script>
+    <script system src="http://dave-tower/projects/math/complex/waypoints/crusty/api/crusty-rusty.js"></script>
+  </section>
+  <section hidden name="Third Party Scripts">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/13.1.1/math.js" async></script>
+  </section>
+  <section hidden name="Monte Carlo Scripts">
+    <script src="./common.js"></script>
+    <script src="./geom.js"></script>
+    <script src="./intersect.js"></script>
+    <script src="./monte-carlo.js"></script>
+  </section>
+  </body>
+</html>
