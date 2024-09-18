@@ -14,6 +14,7 @@
     <nav>
       <button onclick="openWindow(this)" href="./mathjax.html">MathJax</button>
       <button onclick="openWindow(this)" href="./monte-carlo.html">Monte Carlo</button>
+      <button onclick="test()">Test</button>
     </nav>
   </section>
   <section hidden name="Crusty Rusty and NODMAPI APIs">
@@ -30,5 +31,15 @@
     <script src="./api/scribe.js"></script>
     <script src="./renderer.js"></script>
   </section>
+  <script>
+    function test() {
+      try {
+        writeClipboard( Editor.read() );
+      } catch( error ) {
+        console.error( error );
+      }
+    }
+  </script>
+  <script></script>
   </body>
 </html>

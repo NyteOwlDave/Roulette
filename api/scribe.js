@@ -7,31 +7,67 @@
 
 const Scribe = {};
 
-((boss) => {
+(( boss ) => {
 
-    function todo(what) {
-        if (isString(what)) {
-            console.warn('TODO', what);
+    const CACHE_PREFIX   = "Roulette Document";
+    const CACHE_SPLITTER = "-|-";
+    const CACHE_SUFFIX   = "Untitled";
+
+
+    function todo( what ) {
+        if ( isString( what ) ) {
+            console.warn( 'TODO', what );
         } else {
-            console.warn('This feature is under construction');
+            console.warn( 'This feature is under construction' );
         }
         return boss;
     }
-
-    function group(title, object) {
-        console.group(title);
-        console.log(object);
+    
+    function group( title, object ) {
+        console.group( title );
+        if ( object instanceof Error ) {
+            console.error( object );
+        } else {
+            console.log( object );
+        }
         console.groupEnd();
         return boss;
     }
 
-    function table(title, records) {
-        console.group(title);
-        console.table(records);
+    function table( title, records ) {
+        console.group( title );
+        if ( records instanceof Error ) {
+            console.error( records );
+        } else {
+            console.table( records );
+        }
         console.groupEnd();
         return boss;
     }
 
+
+    function ella( t ) {
+        return document.createElement( t );
+    }
+
+    function artie( e, k ) {
+        return e.getAttribute( k );
+    }
+
+    function bart( e, k, v ) {
+        e.setAttribute( k, v );
+        return boss;
+    }
+
+    function stella( e, array ) {
+        const v = array.join( "; " );
+        return bart( e, 'style', v );
+    }
+
+    function aretha( e, obj ) {
+        //===>>> TODO ...
+        todo( 'aretha' );
+    }
 
     function isString( o ) {
         return ( "string" == typeof o );
@@ -96,22 +132,25 @@ const Scribe = {};
     }
 
 
-    function validateString(object) {
-        if (!isString(object)) {
-            expected('a string');
+    function validateString( object ) {
+        if (! isString( object ) ) {
+            expected( 'a string' );
         }
+        return boss;
     }
 
-    function validateScript(script) {
-        if (!isScript(script)) {
-            expected('an HTML script element');
+    function validateScript( script ) {
+        if (! isScript( script ) ) {
+            expected( 'an HTML script element' );
         }
+        return boss;
     }
 
-    function validateEditor(editor) {
-        if (!isEditor(editort)) {
-            expected('an HTML textarea element');
+    function validateEditor( editor ) {
+        if (! isEditor( editor ) ) {
+            expected( 'an HTML textarea element' );
         }
+        return boss;
     }
 
 
@@ -181,87 +220,98 @@ const Scribe = {};
     }
 
 
+    function listScripts( mapper ) {
+        const scripts = Array.from( document.scripts );
+        if ( isFunction( mapper ) ) {
+            return scripts.map( mapper )
+                .filter( o => o )
+                .filter( s => s.length );
+        } else {
+            return scripts;
+        }
+    }
+
     function listScriptFileNames() {
-        return Array.from(document.scripts)
-            .map(getScriptBaseName)
-            .filter(s => s.length);
+        return listScripts( getScriptBaseName );
+    }
+
+    function listScriptTitles() {
+        return listScripts( getScriptTitle );
+    }
+
+    function listScriptDetails() {
+        const details = listScripts( getScriptDetails );
+        const header = getScriptDetails();
+        details.unshift( header );
+        return details;
+    }
+
+    function listScriptLocations() {
+        return listScripts( getScriptLocation );
+    }
+
+    function listScriptSources() {
+        return listScripts( getScriptSource );
+    }
+
+    function listScriptHostNames() {
+        return listScripts( getScriptHostName );
+    }
+
+    function listCacheKeys() {
+        const keys = [];
+        const provider = getCacheProvider();
+        if ( isObject( provider ) ) {
+            let i; let key;
+            for ( i = 0; key = provider.key( i ); i += 1 ) {
+                const parts = parseCacheKey( key );
+                if ( parts.prefix == CACHE_PREFIX ) {
+                    keys.push( parts.title );
+                }
+            }
+        }
+        return keys;
+    }
+
+
+    function inspectScripts() {
+        const scripts = listScripts();
+        return group( "Scripts", scripts );
     }
 
     function inspectScriptFileNames() {
         const names = listScriptFileNames();
-        return table("Script File Names", names);
-    }
-
-    function listScriptTitles() {
-        return Array.from(document.scripts)
-            .map(getScriptTitle)
-            .filter(s => s.length);
+        return table( "Script File Names", names );
     }
 
     function inspectScriptTitles() {
         const names = listScriptTitles();
-        return table("Script Titles", names);
-    }
-
-    function listScriptDetails() {
-        const details = Array.from(document.scripts)
-            .map(getScriptDetails)
-            .filter(s => s.length);
-        const header = getScriptDetails();
-        details.unshift(header);
-        return details;
+        return table( "Script Titles", names );
     }
 
     function inspectScriptDetails() {
         const names = listScriptDetails();
-        return table("Script Titles", names);
-    }
-
-
-    function listScripts() {
-        return Array.from(document.scripts);
-    }
-
-    function listScriptLocations() {
-        // ===>>> TODO...
-        todo("listScriptLocations");
-        return [];
-    }
-
-    function listScriptSources() {
-        // ===>>> TODO...
-        todo("listScriptSources");
-        return [];
-    }
-
-    function listScriptHostNames() {
-        // ===>>> TODO...
-        todo("listScriptHostNames");
-        return [];
-    }
-
-    function inspectScripts() {
-        // ===>>> TODO...
-        todo("inspectScripts");
-        return boss;
+        return table( "Script Details", names );
     }
 
     function inspectScriptLocations() {
-        // ===>>> TODO...
-        todo("inspectScriptLocations");
-        return boss;
+        const names = listScriptLocations();
+        return table( "Script Locations", names );
     }
 
     function inspectScriptSources() {
-        // ===>>> TODO...
-        todo("inspectScriptSources");
-        return boss;
+        const names = listScriptSources();
+        return table( "Script Sources", names );
     }
 
     function inspectScriptHostNames() {
-        // ===>>> TODO...
-        todo("inspectScriptHostNames");
-        return boss;
+        const names = listScriptHostNames();
+        return table( "Script Host Names", names );
+    }
+
+    function inspectCacheKeys() {
+        const keys = listCacheKeys();
+        return table( "Cache Keys", keys );
     }
 
 
@@ -389,29 +439,242 @@ const Scribe = {};
         editor.addEventListener(key, hit);
     }
 
-    function getEditorContent(editor) {
-        validateEditor(editor);
+    function getEditorContent( editor ) {
+        validateEditor( editor );
         return editor.value || '';
     }
 
-    function setEditorContent(editor, content) {
-        validateEditor(editor);
-        editor.value = formatEditorContent(content);
+    function setEditorContent( editor, content ) {
+        validateEditor( editor );
+        editor.value = formatEditorContent( content );
         return boss;
     }
 
-    //===>>> TODO...
-    //===>>> TODO...
-    //===>>> TODO...
-    function runScript(editor) { }
-    function cacheScript(editor) { }
-    function recoverScript(editor) { }
-    function importScript(editor) { }
-    function exportScript(editor) { }
-    function loadScript(editor) { }
-    function saveScript(editor) { }
-    function mailScript(editor, options) { }
+    function clearEditorContent( editor ) {
+        return setEditorContent( '' );
+    }
 
+    function getScriptProvider() {
+        function run( editor ) {
+            let result = "";
+            let code = "";
+            try {
+                if ( isString( editor ) ) {
+                    code = editor.trim();
+                } else if ( isEditor( editor ) ) {
+                    code = getEditorContent( editor );
+                } else {
+                    expected( "a script of HTML TextArea reference" );
+                }
+                result = window.eval( code );
+                group( "Result", result );
+            } catch( error ) {
+                result = error;
+                group( "Result", result );
+            }
+            return { code, result, editor, scribe : boss };    
+        }
+        return run;
+    }
+
+    function runScript( editor ) {
+        const provider = getScriptProvider();
+        if ( isFunction( provider ) ) {
+            return provider( editor );
+        }
+        return undefined;
+    }
+
+    function getCacheProvider() {
+        return localStorage;
+    }
+
+    function cacheScript( editor ) { 
+        const provider = getCacheProvider();
+        if ( isObject( provider ) ) {
+            const key = getEditorCacheKey( editor );
+            value = editor.value;
+            provider.setItem( key, value );
+        }
+        return boss;
+    }
+
+    function recoverScript( editor ) { 
+        const provider = getCacheProvider();
+        if ( isObject( provider ) ) {
+            const key = getEditorCacheKey( editor );
+            const value = provider.getItem( key ) || '';
+            editor.value = value;
+        }
+        return boss;
+    }
+
+    function getTransportProvider() {
+        //===>>> TODO ....
+        todo( "getTransportProvider" );
+        return null;
+    }
+
+    function importScript( editor, url ) {
+        const provider = getTransportProvider();
+        function accept( content ) {
+            console.log( "Imported", url );
+            editor.value = content;
+        }
+        function oops( error ) {
+            console.warn( "Error importing", url );
+            console.error( error );
+        }
+        if ( isObject( provider ) ) {
+            validateEditor( editor );
+            return provider.importScript( url )
+                .then( accept )
+                .catch( oops );
+        }
+        return undefined;
+    }
+
+    function exportScript( editor, url ) { 
+        const provider = getTransportProvider();
+        function ok() {
+            console.log( "Exported", url );
+        }
+        function oops( error ) {
+            console.warn( "Error exporting", url );
+            console.error( error );
+        }
+        if ( isObject( provider ) ) {
+            validateEditor( editor );
+            const content = editor.value;
+            return provider.exportScript( url, content )
+                .then( ok )
+                .catch( oops );
+        }
+        return undefined;
+    }
+
+    function getFileProvider() {
+        //===>>> TODO ....
+        todo( "getFileProvider" );
+        return null;
+    }
+
+    function loadScript( editor, pathName ) { 
+        const provider = getFileProvider();
+        function accept( content ) {
+            console.log( "Loaded", pathName );
+            editor.value = content;
+        }
+        function oops( error ) {
+            console.warn( "Error importing", pathName );
+            console.error( error );
+        }
+        if ( isObject( provider ) ) {
+            validateEditor( editor );
+            return provider.loadScript( pathName )
+                .then( accept )
+                .catch( oops );
+        }
+        return undefined;
+    }
+
+    function saveScript( editor, pathName ) { 
+        const provider = getFileProvider();
+        function ok() {
+            console.log( "Saved", pathName );
+        }
+        function oops( error ) {
+            console.warn( "Error saving", pathName );
+            console.error( error );
+        }
+        if ( isObject( provider ) ) {
+            validateEditor( editor );
+            const content = editor.value;
+            return provider.saveScript( pathName, content )
+                .then( ok )
+                .catch( oops );
+        }
+        return undefined;
+    }
+
+    function getMailProvider() {
+        //===>>> TODO ....
+        todo( "getMailProvider" );
+        return null;
+    }
+
+    function mailScript( editor, options ) { 
+        validateEditor( editor );
+        provider = getMailProvider();
+        if ( isFunction( provider ) ) {
+            provider( content, options );
+        }
+        return boss;
+    }
+
+    function composeCacheKey( title ) {
+        const tag = CACHE_PREFIX;
+        const sep = CACHE_SPLITTER;
+        const def = CACHE_SUFFIX;
+        if ( isString( title ) ) {
+            title = title.trim() || def;
+        } else {
+            title = def;
+        }
+        return `${tag} ${sep} ${title}`;
+    }
+
+    function parseCacheKey( key ) {
+        const tag = CACHE_PREFIX;
+        const sep = CACHE_SPLITTER;
+        const def = CACHE_SUFFIX;
+        if ( isString( key ) ) {
+            key = key.trim();
+            if (! key.length ) {
+                expected( "a non-empty string" );
+            }
+        } else {
+            expected( "a string" );
+        }
+        const head = key.indexOf( sep );
+        let prefix; 
+        let title;
+        if ( head < 0 ) {
+            prefix = '';
+            title  = key.trim();
+        } else {
+            const tail = head + sep.length;
+            prefix = key.substring( 0, head ).trim();
+            title  = key.substring( tail ).trim();    
+        }
+        return { prefix, title };
+    }
+
+    function getEditorCacheKey( editor ) {
+        const title = getEditorTitle( editor );
+        return composeCacheKey( title );
+    }
+
+    function setEditorCacheKey( editor, key ) {
+        const tag = CACHE_PREFIX;
+        const parts = parseCacheKey( key );
+        if ( parts.prefix != tag ) {
+            expected( `cache prefix '${sep}'` );
+        }
+        return setEditorTitle( editor, parts.title );
+    }
+
+    function getEditorTitle( editor ) {
+        validateEditor( editor );
+        const title = artie( editor, "name" ) || '';
+        return title.trim() || CACHE_SUFFIX;
+    }
+
+    function setEditorTitle( editor, title ) {
+        validateEditor( editor );
+        validateString( title );
+        bart( editor, "name", title.trim() );
+    }
 
     const testTitle = "Congratulations";
     const testScript = `
@@ -478,46 +741,11 @@ function attaboy() {
         return popup(url, control, target);
     }
 
-
-    boss.extra = {
-        expected,
-        table, group,
-        location, baseName, hostName,
-    };
-
-    boss.editor = {
-        style: {
-            tabSize: setEditorTabSize,
-            font: setEditorFont,
-            colors: setEditorColors
-        },
-        content: {
-            read: getEditorContent,
-            write: setEditorContent,
-            format: formatEditorContent
-        },
-        selection: {
-            read: copyEditorSelection,
-            write: replaceEditorSelection,
-            details: getEditorSelectionDetails
-        },
-        init: initEditor,
-        run: runScript,
-        cache: {
-            read: cacheScript,
-            write: recoverScript,
-        },
-        transport: {
-            read: importScript,
-            write: exportScript,
-        },
-        file: {
-            read: loadScript,
-            write: saveScript,
-        },
-        mail: {
-            send: mailScript,
-        },
+    boss.dom = {
+        ella ,
+        artie , bart ,
+        stella ,
+        aretha ,
     };
 
     boss.is = {
@@ -537,6 +765,65 @@ function attaboy() {
         editor: validateEditor,
     };
 
+    boss.extra = {
+        expected,
+        table, group,
+        location, baseName, hostName,
+    };
+
+    boss.editor = {
+        init: initEditor ,
+        style: {
+            tabSize: setEditorTabSize,
+            font: setEditorFont,
+            colors: setEditorColors
+        } ,
+        content: {
+            read   : getEditorContent ,
+            write  : setEditorContent ,
+            clear  : clearEditorContent ,
+            format : formatEditorContent ,
+        } ,
+        title: {
+            read  : getEditorTitle ,
+            write : setEditorTitle 
+        } ,
+        selection: {
+            read: copyEditorSelection,
+            write: replaceEditorSelection,
+            details: getEditorSelectionDetails
+        } ,
+        script : {
+            run: runScript ,
+            provider : getScriptProvider
+        } ,
+        cache: {
+            read  : cacheScript ,
+            write : recoverScript ,
+            provider : getCacheProvider ,
+            key   : { 
+                read    : getEditorCacheKey , 
+                write   : setEditorCacheKey ,
+                compose : composeCacheKey ,
+                parse   : parseCacheKey
+            } ,
+        } ,
+        transport: {
+            read: importScript ,
+            write: exportScript ,
+            provider : getTransportProvider ,
+        } ,
+        file: {
+            read  : loadScript ,
+            write : saveScript ,
+            provider : getFileProvider ,
+        } ,
+        mail: {
+            send : mailScript ,
+            provider : getMailProvider ,
+        }
+    };
+
     boss.list = {
         scripts: listScripts,
         titles: listScriptTitles,
@@ -545,6 +832,7 @@ function attaboy() {
         sources: listScriptSources,
         hostnames: listScriptHostNames,
         details: listScriptDetails,
+        cacheKeys: listCacheKeys
     };
 
     boss.inspect = {
@@ -555,6 +843,7 @@ function attaboy() {
         sources: inspectScriptSources,
         hostnames: inspectScriptHostNames,
         details: inspectScriptDetails,
+        cacheKeys: inspectCacheKeys
     };
 
     boss.script = {
@@ -613,7 +902,10 @@ class DocTree {
     get protoClass() {
         return DocTree;
     }
-    edit() {
+    edit( noCopy ) {
+        if (! noCopy ) {
+            this.copyToClipboard();
+        }
         return Scribe.popup.open( this.editorURL );
     }
     reset() {
@@ -621,15 +913,40 @@ class DocTree {
         return this;
     }
     transform( object ) {
+        const self = this;
         this.reset();
-        if ( this.is.object( object ) ) {
-            const result = {};
-            for ( let prop in object ) {
-                result[prop] = "";
+        this.state.input = object;
+        function ok( o ) {
+            if ( Array.isArray( o ) ) {
+                return false;
             }
-            this.state.input = object;
-            this.state.output = JSON.stringify( result, 0, 2 );
+            return self.is.object( o );
         }
+        function fn( o ) {
+            return self.is.callback( o );
+        }
+        function group( title, data ) {
+            return Scribe.extra.group( title, data );
+        }
+        function readProperties( object ) {
+            const result = {};
+            if ( ok( object ) ) {
+                for ( let prop in object ) {
+                    const value = object[ prop ];
+                    if ( fn( value ) ) {
+                        result[ prop ] = "";
+                    } else if ( ok( value ) ) {
+                        result[ prop ] = readProperties( value );
+                    } else {
+                        result[ prop ] = typeof value;
+                    }
+                }
+            }
+            return result;
+        }
+        const result = readProperties( object );
+        group( "Result", result );
+        this.state.output = JSON.stringify( result, 0, 2 );
         return this;
     }
     copyToClipboard( text ) {
@@ -653,11 +970,12 @@ class DocTree {
         const container = document.firstElementChild;
         container.appendChild( editor );
         try {
-            elem.style.position = "fixed";
-            elem.value = text;
-            elem.focus();
-            elem.select();
+            editor.style.position = "fixed";
+            editor.value = text;
+            editor.focus();
+            editor.select();
             document.execCommand( 'copy' );
+            console.log( "DocTree wrote to clipboard" );
         } catch( error ) {
             console.error( error );
         } finally {
@@ -667,3 +985,11 @@ class DocTree {
 }
 
 DocTree.editorURL = "https://jsoneditoronline.org/";
+
+class ScribeDocTree {
+    constructor() {
+        super( Scribe );
+    }
+}
+
+
