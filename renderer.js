@@ -11,23 +11,22 @@ function clampInt( value, lo, hi, orelse ) {
 }
 
 const Editor = {
-    control : null,
+    persistentCacheKey : "Roulette Persistent Document" ,
+    control : null ,
     read : function() {
         const control = Editor.control;
         const api = Scribe.editor.content;
         return api.read( control );
     } ,
-    write : function( value ) {
-        const control = Editor.control;
+    write : function( content ) {
+        const self = Editor;
+        const control = self.control;
         const api = Scribe.editor.content;
-        api.write( control, value );
-        return this;
+        api.write( control, content );
+        return self;
     } ,
     clear : function() {
-        const control = Editor.control;
-        const api = Scribe.editor.content;
-        api.clear();
-        return this;
+        return Editor.write( '' );
     } ,
     init : function( control ) {
         const what = "an ID or reference to an HTML TextArea Element";
@@ -48,7 +47,31 @@ const Editor = {
             oops();
         }
         self.control = control;
-        console.log( "Editor initialized");
+        self.autoRecover();
+        const unload = "beforeunload";
+        function shutdown( event ) {
+            self.autoCache();
+        }
+        window.addEventListener( unload, shutdown );
+        console.log( "Editor initialized" );
+        return self;
+    } ,
+    autoCache() {
+        const self = Editor;
+        const key = self.persistentCacheKey;
+        const content = self.read();
+        localStorage.setItem( key, content );
+        console.log( "Persistent editor content cached" );
+        return self;
+    } ,
+    autoRecover() {
+        const self = Editor;
+        const key = self.persistentCacheKey;
+        const content = localStorage.getItem( key ) || '';
+        if ( content.length ) {
+            console.log( "Persistent editor content recovered" );
+            return self.write( content );    
+        }
         return self;
     } ,
 };

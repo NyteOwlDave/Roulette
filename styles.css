@@ -7,6 +7,18 @@ input[type="number"] {
     width: 8em;
 }
 
+#idInput {
+    resize : vertical;
+    width : calc( 100% - 35px );
+    margin : 0;
+    padding: 1em;
+    border : 1px rgba( 123, 123, 55, 0.75 );
+    border-radius : 0.5em;
+    font : 12pt monospace;
+    color : rgba( 240, 240, 120, 0.777 );
+    background-color : rgba( 25, 25, 99, 0.777 );
+}
+
 /* 
 ================================
 */

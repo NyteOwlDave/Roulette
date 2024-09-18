@@ -258,12 +258,16 @@ const Scribe = {};
         return listScripts( getScriptHostName );
     }
 
-    function listCacheKeys() {
+    function listCacheKeys( all ) {
         const keys = [];
         const provider = getCacheProvider();
         if ( isObject( provider ) ) {
             let i; let key;
             for ( i = 0; key = provider.key( i ); i += 1 ) {
+                if ( all ) {
+                    keys.push( key );
+                    continue;
+                }
                 const parts = parseCacheKey( key );
                 if ( parts.prefix == CACHE_PREFIX ) {
                     keys.push( parts.title );
@@ -309,8 +313,8 @@ const Scribe = {};
         return table( "Script Host Names", names );
     }
 
-    function inspectCacheKeys() {
-        const keys = listCacheKeys();
+    function inspectCacheKeys( all ) {
+        const keys = listCacheKeys( all );
         return table( "Cache Keys", keys );
     }
 
@@ -384,11 +388,11 @@ const Scribe = {};
         return boss;
     }
 
-    function formatEditorContent(content) {
-        if (isObject(content)) {
-            return JSON.stringify(s, 0, 2);
+    function formatEditorContent( content ) {
+        if ( isObject( content ) ) {
+            return JSON.stringify( content, 0, 2 );
         } else {
-            return String(s);
+            return String( content );
         }
     }
 
@@ -986,10 +990,9 @@ class DocTree {
 
 DocTree.editorURL = "https://jsoneditoronline.org/";
 
-class ScribeDocTree {
+class ScribeDocTree extends DocTree {
     constructor() {
         super( Scribe );
     }
 }
-
 
