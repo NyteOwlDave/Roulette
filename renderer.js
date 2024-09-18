@@ -53,6 +53,7 @@ const Editor = {
             self.autoCache();
         }
         window.addEventListener( unload, shutdown );
+        Scribe.editor.init( control );
         console.log( "Editor initialized" );
         return self;
     } ,
